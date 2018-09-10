@@ -1,18 +1,30 @@
-version: '3'
+version: '3.5'
 
 services:
-  web:
-    build: .
+  db:
+    container_name: avaleasy-db
+    image: mongo:3.1.4
+    volumes:
+      - ./data:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - avaleasy-net
+
+  api:
+    container_name: avaleasy-backend
+    image: avaleasy/avaleasy-backend:1.0.0
     ports:
       - 3000:3000
     volumes:
       - .:/app
       - /app/node_modules
-    command: yarn start
     networks:
       - avaleasy-net
+    depends_on:
+      - db
+
 networks:
   avaleasy-net:
-    external:
-      name: avaleasy-net
+    name: avaleasy-net
 
