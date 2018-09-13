@@ -16,9 +16,9 @@ describe('Api users', function() {
 
   });
 
-  it('Return 200 on root /', () => {
+  it('Return 201 on /teachers/', () => {
     return chai.request(app)
-      .post('/users')
+      .post('/teachers')
       .then((res) => {
         expect(res).to.have.status(201);
         expect(res).to.be.json;
