@@ -8,10 +8,26 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
 });
+var Schema = mongoose.Schema;
+
+var teacherDataSchema = new Schema({
+  nome: {type:String, required:true},
+  email: {type:String, required:true}
+}, {collection: 'teachers'});
+
+var Teachers = mongoose.model('TeacherData', teacherDataSchema);
 
 /* POST teachers. */
-router.post('/', (req, res, next) => {
-  res.status(201).send({message: "Teacher created!"});
+router.post('/novo', function(req, res, next) {
+ var teacher = {
+   nome: req.body.nome,
+   email: req.body.email
+ };
+
+ var data = new Teachers(teacher);
+ data.save();
+
+ res.redirect('/');
 });
 
 module.exports = router;
