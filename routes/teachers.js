@@ -5,11 +5,6 @@ var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://db:27017/base');
 var Schema = mongoose.Schema;
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function() {
-//   // we're connected!
-// });
 
 var teacherDataSchema = new Schema({
   name: {type:String, required:true},

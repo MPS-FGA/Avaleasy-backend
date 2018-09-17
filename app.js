@@ -9,7 +9,7 @@ var db = monk('localhost:27017/avaleasy-db');
 var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var teachersRouter = require('./routes/teachers')
+var teachersRouter = require('./routes/teachers');
 
 var app = express();
 
