@@ -1,22 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
+var mongoose = require('mongoose');
 
-const mongoose = require('mongoose');
 mongoose.connect('mongodb://db:27017/base');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-});
-
 var Schema = mongoose.Schema;
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function() {
+//   // we're connected!
+// });
+
 var teacherDataSchema = new Schema({
   name: {type:String, required:true},
   email: {type:String, required:true},
-  password: {type:String, required:true},
-  hash: String,
-  salt: String
+  password: {type:String, required:true}
 }, {collection: 'teachers'});
 
 var Teachers = mongoose.model('TeacherData', teacherDataSchema);
@@ -48,13 +46,15 @@ function hashPassword(password) {
 
 /* POST teachers. */
 router.post('/new', function(req, res, next) {
+
   var teacher = {
-   name: req.body.nome,
+   name: req.body.name,
    email: req.body.email,
    password: req.body.password
   };
 
-  teacher['password'] = hashPassword(teacher['password']);
+  const password = hashPassword(teacher['password']);
+  teacher['password'] = password.passwordHash;
 
   var data = new Teachers(teacher);
   data.save();

@@ -6,12 +6,15 @@ var logger = require('morgan');
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/avaleasy-db');
-
+var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var teachersRouter = require('./routes/teachers')
 
 var app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
