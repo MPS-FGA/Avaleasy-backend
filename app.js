@@ -1,17 +1,17 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/avaleasy-db');
-var bodyParser = require('body-parser');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var teachersRouter = require('./routes/teachers');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const monk = require('monk');
 
-var app = express();
+const db = monk('localhost:27017/avaleasy-db');
+const bodyParser = require('body-parser');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const teachersRouter = require('./routes/teachers');
+
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
