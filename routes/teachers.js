@@ -9,11 +9,12 @@ const { Schema } = mongoose;
 
 const teacherDataSchema = new Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 }, { collection: 'teachers' });
 
 const Teachers = mongoose.model('TeacherData', teacherDataSchema);
+
 
 /* generates salt for hash with random char string */
 const genRandomString = function genRandomString(length) {
@@ -52,9 +53,21 @@ router.post('/new', (req, res, next) => {
   teacher.password = password.passwordHash;
 
   const data = new Teachers(teacher);
-  data.save();
 
-  res.redirect('/');
+  data.save((err) => {
+    if (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        // Duplicate email
+        return res.status(500).send({ succes: false, message: 'Teacher already exist!' });
+      }
+      // Some other error
+      return res.status(500).send(err);
+    }
+    return res.json({
+      success: true,
+    });
+  });
 });
+
 
 module.exports = router;
