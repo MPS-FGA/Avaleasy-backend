@@ -4,20 +4,27 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "test": "mocha --exit",
     "lint": "eslint . --ext .js,.jsx"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
+    "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "eslint": "^5.3.0",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
     "mongodb": "^3.1.4",
+    "mongoose": "^5.2.15",
     "monk": "^6.0.6",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.2.0",
+    "mocha": "^5.2.0",
     "babel-eslint": "^9.0.0",
     "eslint-config-airbnb": "17.1.0",
     "eslint-plugin-import": "^2.14.0",

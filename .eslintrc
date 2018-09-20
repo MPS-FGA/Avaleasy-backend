@@ -4,7 +4,11 @@
   "env": {
     "es6": true,
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+      "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+      "no-unused-expressions": 0
   }
 }
-

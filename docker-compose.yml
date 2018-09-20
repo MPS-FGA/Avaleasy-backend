@@ -3,7 +3,7 @@ version: '3.5'
 services:
   db:
     container_name: avaleasy-db
-    image: mongo:3.1.4
+    image: mongo:3.2
     volumes:
       - ./data:/data/db
     ports:
@@ -13,7 +13,7 @@ services:
 
   api:
     container_name: avaleasy-backend
-    image: avaleasy/avaleasy-backend:1.0.0
+    build: .
     ports:
       - 3000:3000
     volumes:
