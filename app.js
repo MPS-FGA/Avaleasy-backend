@@ -1,17 +1,19 @@
+const app = express();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const monk = require('monk');
+const jwt = require('jsonwebtoken')
+const mongo = require('mongodb');
 
 const db = monk('localhost:27017/avaleasy-db');
 const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const teachersRouter = require('./routes/teachers');
-
-const app = express();
+const authRouter = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -31,9 +33,31 @@ app.use((req, res, next) => {
   next();
 });
 
+// middleware for authentication check
+function verifyToken(req, res, next) {
+  // get auth header value
+  const bearerHeader = req.headers['authorization'];
+  
+  if (typeof bearerHeader != undefined) {
+    const bearer = bearerHeader.split(' ');
+    const bearerToken = bearer[1];
+    
+    req.token = bearerToken;
+    
+    next();
+  }
+
+  else {
+    res.json({
+      error: 403
+    })
+  }
+}
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/teachers', teachersRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -50,5 +74,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

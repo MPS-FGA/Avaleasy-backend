@@ -1,20 +1,19 @@
-const express = require('express');
-
-const router = express.Router();
-const crypto = require('crypto');
-const mongoose = require('mongoose');
+var express = require('express');
+var router = express.Router();
+var crypto = require('crypto');
+var mongoose = require('mongoose');
+var Teachers = require('../models/teacher.model')
 
 mongoose.connect('mongodb://db:27017/base');
 const { Schema } = mongoose;
 
-const teacherDataSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-}, { collection: 'teachers' });
+// var teacherDataSchema = new Schema({
+//   name: {type:String, required:true},
+//   email: {type:String, required:true},
+//   password: {type:String, required:true}
+// }, {collection: 'teachers'});
 
-const Teachers = mongoose.model('TeacherData', teacherDataSchema);
-
+// var Teachers = mongoose.model('TeacherData', teacherDataSchema);
 
 /* generates salt for hash with random char string */
 const genRandomString = function genRandomString(length) {
