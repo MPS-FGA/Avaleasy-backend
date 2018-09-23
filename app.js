@@ -7,13 +7,14 @@ const logger = require('morgan');
 const monk = require('monk');
 const jwt = require('jsonwebtoken')
 const mongo = require('mongodb');
+const bodyParser = require('body-parser');
 
 const db = monk('localhost:27017/avaleasy-db');
-const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const teachersRouter = require('./routes/teachers');
 const authRouter = require('./routes/auth');
+const authMiddleware = require('./auth.middleware');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -32,27 +33,6 @@ app.use((req, res, next) => {
   req.db = db;
   next();
 });
-
-// middleware for authentication check
-function verifyToken(req, res, next) {
-  // get auth header value
-  const bearerHeader = req.headers['authorization'];
-  
-  if (typeof bearerHeader != undefined) {
-    const bearer = bearerHeader.split(' ');
-    const bearerToken = bearer[1];
-    
-    req.token = bearerToken;
-    
-    next();
-  }
-
-  else {
-    res.json({
-      error: 403
-    })
-  }
-}
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

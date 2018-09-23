@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var crypto = require('crypto');
 var mongoose = require('mongoose');
-var Teachers = require('../models/teacher.model')
+var Teachers = require('../models/teacher.model');
+
+var authMiddleware = require('../auth.middleware');
 
 mongoose.connect('mongodb://db:27017/base');
 const { Schema } = mongoose;
@@ -68,5 +70,21 @@ router.post('/new', (req, res, next) => {
   });
 });
 
+// GET teachers '/'
+router.get('/', (req, res) => {
+  Teachers.find({}, (err, teachers) => {
+    if (!err) {
+      let teacherMap = {};
+      teachers.forEach(t => {
+        teacherMap[t._id] = t;
+      });
+      res.json(teacherMap)
+    } else {
+      res.json({
+        err
+      });
+    }
+  });
+})
 
 module.exports = router;
