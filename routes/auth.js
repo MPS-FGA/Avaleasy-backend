@@ -1,22 +1,34 @@
 const express = require('express');
-const router = express();
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const Teachers = require('../models/teacher.model')
 mongoose.connect('mongodb://db:27017/base');
 
-// POST sign in or login
+const router = express();
+
+// POST /auth/sign-in
 router.post('/sign-in', (req, res) => {
-  Teachers.find({username: req.body.username}, (err, result) => {
+  Teachers.find({email: req.body.email}, (err, result) => {
     if (!err && typeof result != undefined) {
       jwt.sign({user: result}, 'secretkey', (err, token) => {
-        res.json({
-          token
-        })
+        if (err) {
+          res.json({
+            error
+          });
+        }
+        else {
+          res.json({
+            token
+          });
+        }
       });
     }    
   });
+});
+
+router.post('/sign-out', (req, res) => {
+  
 });
 
 module.exports = router;

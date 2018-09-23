@@ -1,4 +1,3 @@
-const app = express();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -15,6 +14,8 @@ const usersRouter = require('./routes/users');
 const teachersRouter = require('./routes/teachers');
 const authRouter = require('./routes/auth');
 const authMiddleware = require('./auth.middleware');
+
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -34,6 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// api routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/teachers', teachersRouter);
