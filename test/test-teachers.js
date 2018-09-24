@@ -2,7 +2,9 @@ const chai = require('chai');
 const { expect } = require('chai');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://db:27017/base');
+const Teacher = require('../models/teacher.js');
+
+mongoose.connect('mongodb://db:27017/test');
 
 chai.use(require('chai-http'));
 
@@ -16,7 +18,7 @@ describe('Api users', function describe() {
   });
 
   afterEach((done) => {
-    mongoose.connection.db.dropCollection('teachers');
+    mongoose.connection.db.dropDatabase();
     done();
   });
 
@@ -24,9 +26,27 @@ describe('Api users', function describe() {
     chai.request(app)
       .post('/teachers/new')
       .send({ name: 'Professor', email: 'Professor@unbmail.com', password: '123' })
-      .then((res) => {
+      .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        done();
+      });
+  });
+
+  it('Should return a list of teachers on /teachers/', (done) => {
+    // Create a teacher on test DB
+    const data = { name: 'bla', password: 'asdiahsui', email: 'bla@email' };
+    const teacher = new Teacher(data);
+    teacher.save();
+
+    chai.request(app)
+      .get('/teachers')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('array');
+        expect(res.body[0]).to.be.eql(
+          { _id: teacher.id, name: teacher.name, email: teacher.email },
+        );
         done();
       });
   });

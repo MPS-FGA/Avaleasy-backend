@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "mocha --exit",
+    "watch:test": "mocha --watch",
     "lint": "eslint . --ext .js,.jsx"
   },
   "dependencies": {

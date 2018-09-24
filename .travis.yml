@@ -7,7 +7,7 @@ sudo: required
 
 env:
   matrix:
-    #- TASK="yarn test" remove comment when there is a test suite set
+    - TASK="yarn test"
     - TASK="yarn lint"
 
 before_script:
