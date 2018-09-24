@@ -35,7 +35,7 @@ describe('Api users', function describe() {
 
   it('Should return a list of teachers on /teachers/', (done) => {
     // Create a teacher on test DB
-    const data = { name: 'bla', password: 'asdiahsui', email: 'bla@email' };
+    const data = { name: 'bla', password: '123', email: 'bla@email' };
     const teacher = new Teacher(data);
     teacher.save();
 
@@ -45,6 +45,26 @@ describe('Api users', function describe() {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an('array');
         expect(res.body[0]).to.be.eql(
+          { _id: teacher.id, name: teacher.name, email: teacher.email },
+        );
+        done();
+      });
+  });
+
+  it('Should return a single teacher on /teachers/:email', (done) => {
+    // Create a teacher on test DB
+    const data = { name: 'bla', password: '123', email: 'bla@email' };
+    const teacher = new Teacher(data);
+    teacher.save();
+
+    const url = `/teachers/${teacher.id}`;
+
+    chai.request(app)
+      .get(url)
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body).to.be.eql(
           { _id: teacher.id, name: teacher.name, email: teacher.email },
         );
         done();

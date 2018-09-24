@@ -68,5 +68,26 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+  Teacher.findById(req.params.id)
+    .then((teacher) => {
+      if (!teacher) {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        })
+      }
+      return res.status(200).send(teacher);
+    }).catch((err) => {
+      if (err.kind === 'ObjectId') {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        });
+      }
+      return res.status(500).send({
+        message: 'Error retrieving teacher',
+      });
+    });
+});
+
 
 module.exports = router;
