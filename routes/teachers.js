@@ -74,7 +74,7 @@ router.get('/:id', (req, res) => {
       if (!teacher) {
         return res.status(404).send({
           message: 'Teacher not found',
-        })
+        });
       }
       return res.status(200).send(teacher);
     }).catch((err) => {
