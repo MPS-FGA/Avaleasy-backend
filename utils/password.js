@@ -14,7 +14,7 @@ const sha512 = function sha512(password, salt) {
   const value = hash.digest('hex');
   return {
     salt,
-    passwordHash: value
+    passwordHash: value,
   };
 };
 

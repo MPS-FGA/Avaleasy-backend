@@ -10,7 +10,7 @@ var http = require('http');
 
 // secret key
 const SECRET_KEY = process.env.SECRET_KEY || '8517cede2b9ac904ba77e418e5a02b54f6b47567';
-
+app.set('SECRET_KEY', SECRET_KEY);
 /**
  * Get port from environment and store in Express.
  */

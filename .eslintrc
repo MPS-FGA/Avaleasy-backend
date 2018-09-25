@@ -9,6 +9,13 @@
   },
   "rules": {
       "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
-      "no-unused-expressions": 0
+      "no-unused-expressions": 0,
+      "prefer-destructuring": [
+        "error",
+        {
+          "object": false,
+          "array": false
+        }
+      ]
   }
 }

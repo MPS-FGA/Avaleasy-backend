@@ -4,8 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const monk = require('monk');
-const jwt = require('jsonwebtoken')
-const mongo = require('mongodb');
 const bodyParser = require('body-parser');
 
 const db = monk('localhost:27017/avaleasy-db');
@@ -13,7 +11,6 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const teachersRouter = require('./routes/teachers');
 const authRouter = require('./routes/auth');
-const authMiddleware = require('./auth.middleware');
 
 const app = express();
 

@@ -14,9 +14,11 @@ describe('Auth api', function describe() {
   const testUser = {
     name: 'test',
     email: 'test@test.com',
-    password: '123123'
-  }
-  
+    password: '123123',
+  };
+
+  const SECRET_KEY = '8517cede2b9ac904ba77e418e5a02b54f6b47567';
+
   before(() => {
     chai.request(app).post('/teachers/new').send(testUser);
   });
@@ -33,7 +35,7 @@ describe('Auth api', function describe() {
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res).to.have("token");
+        expect(res).to.have('token');
         expect(jwt.decode(res.token, SECRET_KEY)).to.be.true;
         done();
       });

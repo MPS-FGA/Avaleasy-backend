@@ -1,10 +1,10 @@
 const express = require('express');
+
 const router = express.Router();
 const mongoose = require('mongoose');
 
 const Teachers = require('../models/teacher.model');
 const hashPassword = require('../utils/password');
-const authMiddleware = require('../auth.middleware');
 
 mongoose.connect('mongodb://db:27017/base');
 
@@ -14,13 +14,13 @@ router.post('/new', (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    salt: ''
+    salt: '',
   };
 
   const password = hashPassword(teacher.password);
   teacher.password = password.passwordHash;
   teacher.salt = password.salt;
-  
+
   const data = new Teachers(teacher);
 
   data.save((err) => {
@@ -42,19 +42,19 @@ router.post('/new', (req, res, next) => {
 router.get('/', (req, res) => {
   Teachers.find({}, (err, teachers) => {
     if (!err) {
-      let teacherMap = {};
-      teachers.forEach(t => {
-        teacherMap[t._id] = t;
+      const teacherMap = {};
+      teachers.forEach((t) => {
+        teacherMap[t.id] = t;
       });
       res.json({
-        teachers: teacherMap
-      })
+        teachers: teacherMap,
+      });
     } else {
       res.json({
-        err
+        err,
       });
     }
   });
-})
+});
 
 module.exports = router;
