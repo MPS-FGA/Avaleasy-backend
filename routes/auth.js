@@ -11,36 +11,37 @@ const router = express();
 
 // POST /auth/sign-in
 router.post('/sign-in', (req, res) => {
-  var teacher = Teachers.find({ email: req.body.email, password: hashPassword(req.user.password) }, (err) => {
+  var teacher = Teachers.find({ email: req.body.email }, (err, req) => {
     if (err) {
       res.json({
         err
       });
     }
   });
-  if (Object.getOwnPropertyNames(teacher).length === 0) {
-    jwt.sign({teacher}, 'secretkey', (err, token) => {
-      if (err) {
-        res.json({
-          err
-        });
-      }
-      else {
-        res.json({
-          token
-        });
-      }
-    });
+  // validations
+  if (teacher) {
+    if (teacher.password === hashPassword(req.body.password).passwordHash) {
+      jwt.sign({teacher}, SECRET_KEY, (err, token) => {
+        if (err) {
+          res.json({
+            err
+          });
+        }
+        else {
+          res.json({
+            token
+          });
+        }
+      });
+    }
+    else {
+      res.sendStatus(403);  
+    }
   }
   else {
     res.send(404);
   }
 });
-
-// router.post('/sign-in', (req, res) => {
-//   res.sendStatus(200);
-// });
-
 
 router.post('/sign-out', (req, res) => {
   

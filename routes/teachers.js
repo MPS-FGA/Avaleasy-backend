@@ -14,18 +14,20 @@ router.post('/new', (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
+    salt: ''
   };
 
   const password = hashPassword(teacher.password);
   teacher.password = password.passwordHash;
-
+  teacher.salt = password.salt;
+  
   const data = new Teachers(teacher);
 
   data.save((err) => {
     if (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         // Duplicate email
-        return res.status(500).send({ succes: false, message: 'Teacher already exist!' });
+        return res.status(500).send({ success: false, message: 'Teacher already exist!' });
       }
       // Some other error
       return res.status(500).send(err);

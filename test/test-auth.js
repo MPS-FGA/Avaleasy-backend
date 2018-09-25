@@ -11,14 +11,14 @@ const app = require('../app.js');
 
 describe('Auth api', function describe() {
   this.timeout(10000); // How long to wait for a response
-  const test_user = {
+  const testUser = {
     name: 'test',
     email: 'test@test.com',
     password: '123123'
   }
   
   before(() => {
-    chai.request(app).post('/teachers/new').send(test_user);
+    chai.request(app).post('/teachers/new').send(testUser);
   });
 
   afterEach((done) => {
@@ -29,12 +29,12 @@ describe('Auth api', function describe() {
   it('should return a valid token', (done) => {
     chai.request(app)
       .post('/auth/sign-in')
-      .send({ email: test_user.email, password: test_user.password })
+      .send({ email: testUser.email, password: testUser.password })
       .then((res) => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res).to.have("token");
-        expect(jwt.decode(res.token, 'secretkey')).to.be.true;
+        expect(jwt.decode(res.token, SECRET_KEY)).to.be.true;
         done();
       });
   });
