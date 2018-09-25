@@ -7,15 +7,6 @@ var Teachers = require('../models/teacher.model');
 var authMiddleware = require('../auth.middleware');
 
 mongoose.connect('mongodb://db:27017/base');
-const { Schema } = mongoose;
-
-// var teacherDataSchema = new Schema({
-//   name: {type:String, required:true},
-//   email: {type:String, required:true},
-//   password: {type:String, required:true}
-// }, {collection: 'teachers'});
-
-// var Teachers = mongoose.model('TeacherData', teacherDataSchema);
 
 /* generates salt for hash with random char string */
 const genRandomString = function genRandomString(length) {
@@ -78,7 +69,9 @@ router.get('/', (req, res) => {
       teachers.forEach(t => {
         teacherMap[t._id] = t;
       });
-      res.json(teacherMap)
+      res.json({
+        teachers: teacherMap
+      })
     } else {
       res.json({
         err

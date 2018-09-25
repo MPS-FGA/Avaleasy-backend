@@ -30,4 +30,13 @@ describe('Api users', function describe() {
         done();
       });
   });
+
+  it('should return all teachers on /teachers/', (done) => {
+    chai.request(app).get('/teachers')
+      .then((res) => {
+        expect(res).to.have.status(200);
+        expect(res).to.be.json;
+        done();
+      });
+  });
 });

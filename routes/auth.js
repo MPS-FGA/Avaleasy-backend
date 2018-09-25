@@ -9,23 +9,32 @@ const router = express();
 
 // POST /auth/sign-in
 router.post('/sign-in', (req, res) => {
-  Teachers.find({email: req.body.email}, (err, result) => {
-    if (!err && typeof result != undefined) {
-      jwt.sign({user: result}, 'secretkey', (err, token) => {
-        if (err) {
-          res.json({
-            error
-          });
-        }
-        else {
-          res.json({
-            token
-          });
-        }
+  var teacher = Teachers.find({ email: req.body.email }, (err) => {
+    if (err) {
+      res.json({
+        err
       });
-    }    
+    }
   });
+  if (Object.getOwnPropertyNames(teacher).length === 0) {
+    jwt.sign({teacher}, 'secretkey', (err, token) => {
+      if (err) {
+        res.json({
+          err
+        });
+      }
+      else {
+        res.json({
+          token
+        });
+      }
+    });
+  }
+  else {
+    res.send(404);
+  }
 });
+
 
 router.post('/sign-out', (req, res) => {
   
