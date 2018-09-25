@@ -35,7 +35,7 @@ describe('Auth api', function describe() {
         expect(res).to.be.json;
         expect(res).to.have("token");
         expect(jwt.decode(res.token, 'secretkey')).to.be.true;
-        // done();
+        done();
       });
   });
 });

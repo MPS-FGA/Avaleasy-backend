@@ -3,13 +3,15 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
 const Teachers = require('../models/teacher.model')
+const hashPassword = require('../utils/password');
+
 mongoose.connect('mongodb://db:27017/base');
 
 const router = express();
 
 // POST /auth/sign-in
 router.post('/sign-in', (req, res) => {
-  var teacher = Teachers.find({ email: req.body.email }, (err) => {
+  var teacher = Teachers.find({ email: req.body.email, password: hashPassword(req.user.password) }, (err) => {
     if (err) {
       res.json({
         err
@@ -34,6 +36,10 @@ router.post('/sign-in', (req, res) => {
     res.send(404);
   }
 });
+
+// router.post('/sign-in', (req, res) => {
+//   res.sendStatus(200);
+// });
 
 
 router.post('/sign-out', (req, res) => {

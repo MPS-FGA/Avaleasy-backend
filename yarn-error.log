@@ -1,29 +1,29 @@
 Arguments: 
-  /usr/local/bin/node /opt/yarn-v1.9.2/bin/yarn.js add && yarn start
+  /usr/local/bin/node /opt/yarn-v1.9.4/bin/yarn.js add bycrypt
 
 PATH: 
   /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 Yarn version: 
-  1.9.2
+  1.9.4
 
 Node version: 
-  10.9.0
+  10.11.0
 
 Platform: 
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/&&: Not found
-      at Request.params.callback [as _callback] (/opt/yarn-v1.9.2/lib/cli.js:64150:18)
-      at Request.self.callback (/opt/yarn-v1.9.2/lib/cli.js:137416:22)
+  Error: https://registry.yarnpkg.com/bycrypt: Not found
+      at Request.params.callback [as _callback] (/opt/yarn-v1.9.4/lib/cli.js:64202:18)
+      at Request.self.callback (/opt/yarn-v1.9.4/lib/cli.js:137468:22)
       at Request.emit (events.js:182:13)
-      at Request.<anonymous> (/opt/yarn-v1.9.2/lib/cli.js:138388:10)
+      at Request.<anonymous> (/opt/yarn-v1.9.4/lib/cli.js:138440:10)
       at Request.emit (events.js:182:13)
-      at IncomingMessage.<anonymous> (/opt/yarn-v1.9.2/lib/cli.js:138310:12)
+      at IncomingMessage.<anonymous> (/opt/yarn-v1.9.4/lib/cli.js:138362:12)
       at Object.onceWrapper (events.js:273:13)
       at IncomingMessage.emit (events.js:187:15)
-      at endReadableNT (_stream_readable.js:1085:12)
+      at endReadableNT (_stream_readable.js:1092:12)
       at process._tickCallback (internal/process/next_tick.js:63:19)
 
 npm manifest: 
@@ -169,8 +169,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/cookiejar/-/cookiejar-2.1.0.tgz#4b7daf2c51696cfc70b942c11690528229d1a1ce"
   
   "@types/node@*":
-    version "10.10.2"
-    resolved "https://registry.yarnpkg.com/@types/node/-/node-10.10.2.tgz#2a55b8d66f6945efc5da38489774e551248aa169"
+    version "10.10.3"
+    resolved "https://registry.yarnpkg.com/@types/node/-/node-10.10.3.tgz#09c75a4ad84d6a3d286790bdd9489a4f8ee9906c"
   
   "@types/superagent@^3.8.3":
     version "3.8.4"
@@ -2400,8 +2400,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   
   needle@^2.2.1:
-    version "2.2.3"
-    resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.3.tgz#c1b04da378cd634d8befe2de965dc2cfb0fd65ca"
+    version "2.2.4"
+    resolved "https://registry.yarnpkg.com/needle/-/needle-2.2.4.tgz#51931bff82533b1928b7d1d69e01f1b00ffd2a4e"
     dependencies:
       debug "^2.1.2"
       iconv-lite "^0.4.4"
