@@ -1,17 +1,18 @@
-language: node_js
-
-node_js:
-  - "10.10.0"
-
 sudo: required
+
+services:
+  - docker
 
 env:
   matrix:
-    #- TASK="yarn test" remove comment when there is a test suite set
-    - TASK="yarn lint"
+    - TASK="docker-compose exec api yarn test"
+    - TASK="docker-compose exec api yarn lint"
 
 before_script:
-  - yarn install
+  - sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - docker network create avaleasy-net
+  - docker-compose up -d 
 
 script:
   - $TASK
