@@ -12,33 +12,56 @@ const router = express();
 
 // POST /auth/sign-in
 router.post('/sign-in', (req, res) => {
-  const teacher = Teachers.find({ email: req.body.email }, (err) => {
-    if (err) {
-      res.json({
-        err,
-      });
-    }
-  });
-  // validations
-  if (teacher) {
-    if (teacher.password === hashPassword(req.body.password).passwordHash) {
-      jwt.sign({ teacher }, app.SECRET_KEY, (err, token) => {
-        if (err) {
-          res.json({
-            err,
-          });
-        } else {
-          res.json({
-            token,
-          });
-        }
-      });
-    } else {
-      res.sendStatus(403);
-    }
-  } else {
-    res.send(404);
-  }
+  Teachers.findOne({ email: req.body.email })
+    .then((teacher) => {
+      if (teacher.password === hashPassword(req.body.password).passwordHash) {
+        jwt.sign({ teacher }, app.SECRET_KEY, (err, token) => {
+          if (err) {
+            res.json({
+              err,
+            });
+          } else {
+            res.json({
+              token,
+            });
+          }
+        });
+      } else {
+        res.sendStatus(403);
+      }
+    })
+    .catch((err) => {
+      res.json({ err });
+    });
+
+
+  // const teacher = Teachers.find({ email: req.body.email }, (err) => {
+  //   if (err) {
+  //     res.json({
+  //       err,
+  //     });
+  //   }
+  // });
+  // // validations
+  // if (teacher) {
+  //   if (teacher.password === hashPassword(req.body.password).passwordHash) {
+  //     jwt.sign({ teacher }, app.SECRET_KEY, (err, token) => {
+  //       if (err) {
+  //         res.json({
+  //           err,
+  //         });
+  //       } else {
+  //         res.json({
+  //           token,
+  //         });
+  //       }
+  //     });
+  //   } else {
+  //     res.sendStatus(403);
+  //   }
+  // } else {
+  //   res.send(404);
+  // }
 });
 
 // router.post('/sign-out', (req, res) => {

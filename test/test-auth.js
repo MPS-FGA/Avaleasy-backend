@@ -3,7 +3,6 @@ const { expect } = require('chai');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
-mongoose.connect('mongodb://db:27017/base');
 
 chai.use(require('chai-http'));
 
@@ -16,10 +15,11 @@ describe('Auth api', function describe() {
     email: 'test@test.com',
     password: '123123',
   };
-
+  
   const SECRET_KEY = '8517cede2b9ac904ba77e418e5a02b54f6b47567';
-
+  
   before(() => {
+    mongoose.connect('mongodb://db:27017/base');
     chai.request(app).post('/teachers/new').send(testUser);
   });
 
