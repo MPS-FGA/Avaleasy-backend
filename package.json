@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "nodemon": "nodemon start",
     "test": "mocha --exit",
     "lint": "eslint . --ext .js,.jsx"
   },

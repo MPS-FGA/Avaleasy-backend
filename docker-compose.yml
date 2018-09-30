@@ -23,8 +23,6 @@ services:
       - avaleasy-net
     depends_on:
       - db
-    command: yarn nodemon start
-  
 
 networks:
   avaleasy-net:
