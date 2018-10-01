@@ -6,6 +6,7 @@
     "start": "node ./bin/www",
     "nodemon": "nodemon start",
     "test": "mocha --exit",
+    "watch:test": "mocha --watch",
     "lint": "eslint . --ext .js,.jsx"
   },
   "dependencies": {
