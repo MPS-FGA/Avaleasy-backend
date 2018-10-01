@@ -71,7 +71,6 @@ describe('Teacher routes', function describe() {
       });
   });
 
-  // TODO: Test deletion on database level after DELETE request
   it('Should delete a teacher calling http DELETE on /teacher/:id', (done) => {
     const data = { name: 'bla', password: '123', email: 'bla@email' };
     const teacher = new Teacher(data);
@@ -82,7 +81,12 @@ describe('Teacher routes', function describe() {
     chai.request(app)
       .delete(url)
       .end((err, res) => {
+        let t;
+        Teacher.findOne({ _id: teacher.id }, (er, th) => {
+          t = th;
+        });
         expect(res).to.have.status(204);
+        expect(t).to.be.eql(undefined);
         done();
       });
   });
