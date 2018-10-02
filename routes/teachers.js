@@ -1,20 +1,8 @@
 const express = require('express');
+const crypto = require('crypto');
+const Teacher = require('../models/teacher.js');
 
 const router = express.Router();
-const crypto = require('crypto');
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb://db:27017/base');
-const { Schema } = mongoose;
-
-const teacherDataSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-}, { collection: 'teachers' });
-
-const Teachers = mongoose.model('TeacherData', teacherDataSchema);
-
 
 /* generates salt for hash with random char string */
 const genRandomString = function genRandomString(length) {
@@ -52,7 +40,7 @@ router.post('/new', (req, res, next) => {
   const password = hashPassword(teacher.password);
   teacher.password = password.passwordHash;
 
-  const data = new Teachers(teacher);
+  const data = new Teacher(teacher);
 
   data.save((err) => {
     if (err) {
@@ -67,6 +55,38 @@ router.post('/new', (req, res, next) => {
       success: true,
     });
   });
+});
+
+router.get('/', (req, res) => {
+  Teacher.find()
+    .then((teachers) => {
+      res.status(200).send(teachers);
+    }).catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving teachers',
+      });
+    });
+});
+
+router.get('/:id', (req, res) => {
+  Teacher.findById(req.params.id)
+    .then((teacher) => {
+      if (!teacher) {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        });
+      }
+      return res.status(200).send(teacher);
+    }).catch((err) => {
+      if (err.kind === 'ObjectId') {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        });
+      }
+      return res.status(500).send({
+        message: 'Error retrieving teacher',
+      });
+    });
 });
 
 
