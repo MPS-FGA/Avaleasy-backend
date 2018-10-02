@@ -52,6 +52,10 @@ router.post('/new', (req, res, next) => {
   const examTemplate = {
     title: req.body.title,
     value: req.body.value,
+    tblQuestions: req.body.tblQuestions,
+    objectiveQuestions: req.body.objectiveQuestions,
+    multipleChoiceQuestions: req.body.multipleChoiceQuestions,
+    tfQuestions: req.body.tfQuestions,
   };
 
   const data = new ExamsTemplates(examTemplate);
