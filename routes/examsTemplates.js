@@ -8,6 +8,10 @@ const { Schema } = mongoose;
 const tblQuestions = new Schema({
   title: { type: String, required: true },
   punctuation: { type: Number },
+  alternative1Content: { type: String, required: true },
+  alternative2Content: { type: String, required: true },
+  alternative3Content: { type: String, required: true },
+  alternative4Content: { type: String, required: true },
 });
 
 const objectiveQuestions = new Schema({
@@ -15,10 +19,15 @@ const objectiveQuestions = new Schema({
   punctuation: { type: Number },
 });
 
+const alternatives = new Schema({
+  content: { type: String, required: true }
+});
+
 const multipleChoiceQuestions = new Schema({
   title: { type: String, required: true },
   punctuation: { type: Number },
   numberOfAlternatives: { type: Number, required: true, default: 4},
+  multipleChoiceAlternatives: [alternatives],
 });
 
 const tfQuestions = new Schema({
