@@ -70,5 +70,14 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.delete('/:id', (req, res) => {
+  Teacher.findOneAndDelete(req.params.id)
+    .then(() => {
+      res.status(204).send({ message: 'Teacher deleted' });
+    }).catch((err) => {
+      res.status(500).send({ message: err.message || 'Some error occurred while deleting the teacher' });
+    });
+});
+
 
 module.exports = router;

@@ -10,8 +10,8 @@ chai.use(require('chai-http'));
 
 const app = require('../app.js');
 
-describe('Api users', function describe() {
-  this.timeout(10000); // How long to wait for a response
+describe('Teacher routes', function describe() {
+  this.timeout(1000000); // How long to wait for a response
 
   before(() => {
 
@@ -67,6 +67,26 @@ describe('Api users', function describe() {
         expect(res.body).to.be.eql(
           { _id: teacher.id, name: teacher.name, email: teacher.email },
         );
+        done();
+      });
+  });
+
+  it('Should delete a teacher calling http DELETE on /teacher/:id', (done) => {
+    const data = { name: 'bla', password: '123', email: 'bla@email' };
+    const teacher = new Teacher(data);
+    teacher.save();
+
+    const url = `/teachers/${teacher.id}`;
+
+    chai.request(app)
+      .delete(url)
+      .end((err, res) => {
+        let t;
+        Teacher.findOne({ _id: teacher.id }, (er, th) => {
+          t = th;
+        });
+        expect(res).to.have.status(204);
+        expect(t).to.be.eql(undefined);
         done();
       });
   });
