@@ -89,5 +89,26 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.post('/edit', (req, res, next) => {
+  Teacher.findById(req.params.id)
+    .then((teacher) => {
+      if (!teacher) {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        });
+      }
+      teacher.name = req.body.name;
+      const password = hashPassword(req.body.password);
+      teacher.password = password.passwordHash;
+      teacher.save((err) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.json({
+          success: true,
+        });
+      });
+      })
+});
 
 module.exports = router;
