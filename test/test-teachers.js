@@ -57,6 +57,7 @@ describe('Api users', function describe() {
       .send({ name: 'Teach', password: '321' })
       .end((err, res) => {
         expect(res).to.be.json;
+        expect(res).to.have.status(200);
         done();
       });
   });
