@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const Teachers = require('../models/teacher.model');
+const Teacher = require('../models/teacher');
 const hashPassword = require('../utils/password');
 
 mongoose.connect('mongodb://db:27017/base');

@@ -51,7 +51,7 @@ describe('Api users', function describe() {
       });
   });
 
-  it('Should return a single teacher on /teachers/:email', (done) => {
+  it('Should return a single teacher on /teachers/:id', (done) => {
     // Create a teacher on test DB
     const data = { name: 'bla', password: '123', email: 'bla@email' };
     const teacher = new Teacher(data);

@@ -14,11 +14,11 @@ services:
   api:
     container_name: avaleasy-backend
     build: .
+    command: sh -c "yarn install --dev && yarn start"
     ports:
       - 3000:3000
     volumes:
       - .:/app
-      - /app/node_modules
     networks:
       - avaleasy-net
     depends_on:
