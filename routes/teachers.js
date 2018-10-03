@@ -97,10 +97,10 @@ router.post('/edit', (req, res, next) => {
           message: 'Teacher not found',
         });
       }
-      teacher.name = req.body.name;
+      Teacher.name = req.body.name;
       const password = hashPassword(req.body.password);
-      teacher.password = password.passwordHash;
-      teacher.save((err) => {
+      Teacher.password = password.passwordHash;
+      Teacher.save((err) => {
         if (err) {
           return res.status(500).send(err);
         }
@@ -108,7 +108,8 @@ router.post('/edit', (req, res, next) => {
           success: true,
         });
       });
-      })
+      return res.status(200).send(teacher);
+    });
 });
 
 module.exports = router;
