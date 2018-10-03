@@ -11,7 +11,7 @@ chai.use(require('chai-http'));
 const app = require('../app.js');
 
 describe('Teacher routes', function describe() {
-  this.timeout(10000); // How long to wait for a response
+  this.timeout(1000000); // How long to wait for a response
 
   before(() => {
 

@@ -4,12 +4,13 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const monk = require('monk');
+const bodyParser = require('body-parser');
 
 const db = monk('localhost:27017/avaleasy-db');
-const bodyParser = require('body-parser');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const teachersRouter = require('./routes/teachers');
+const authRouter = require('./routes/auth');
 const examsTemplatesRouter = require('./routes/examsTemplates');
 
 const app = express();
@@ -32,9 +33,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// api routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/teachers', teachersRouter);
+app.use('/auth', authRouter);
 app.use('/examsTemplates', examsTemplatesRouter);
 
 // catch 404 and forward to error handler
@@ -52,5 +55,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;

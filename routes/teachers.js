@@ -1,33 +1,12 @@
 const express = require('express');
-const crypto = require('crypto');
-const Teacher = require('../models/teacher.js');
 
 const router = express.Router();
+const mongoose = require('mongoose');
 
-/* generates salt for hash with random char string */
-const genRandomString = function genRandomString(length) {
-  return crypto.randomBytes(Math.ceil(length / 2))
-    .toString('hex')
-    .slice(0, length);
-};
+const Teacher = require('../models/teacher');
+const hashPassword = require('../utils/password');
 
-/* hash password with sha512 */
-const sha512 = function sha512(password, salt) {
-  const hash = crypto.createHmac('sha512', salt);
-  hash.update(password);
-  const value = hash.digest('hex');
-  return {
-    salt,
-    passwordHash: value,
-  };
-};
-
-function hashPassword(password) {
-  const salt = genRandomString(16);
-  const passwordData = sha512(password, salt);
-
-  return passwordData;
-}
+mongoose.connect('mongodb://db:27017/base');
 
 /* POST teachers. */
 router.post('/new', (req, res, next) => {
@@ -35,10 +14,12 @@ router.post('/new', (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
+    salt: '',
   };
 
   const password = hashPassword(teacher.password);
   teacher.password = password.passwordHash;
+  teacher.salt = password.salt;
 
   const data = new Teacher(teacher);
 
@@ -46,7 +27,7 @@ router.post('/new', (req, res, next) => {
     if (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         // Duplicate email
-        return res.status(500).send({ succes: false, message: 'Teacher already exist!' });
+        return res.status(500).send({ success: false, message: 'Teacher already exist!' });
       }
       // Some other error
       return res.status(500).send(err);
