@@ -51,17 +51,7 @@ describe('Api users', function describe() {
       });
   });
 
-  it('should edit a Teacher on /teachers/edit POST', (done) => {
-    chai.request(app)
-      .post('/teachers/edit')
-      .send({ name: 'Teach', password: '321' })
-      .end((err, res) => {
-        expect(res).to.be.json;
-        done();
-      });
-  });
-
-  it('Should return a single teacher on /teachers/:email', (done) => {
+  it('Should return a single teacher on /teachers/:id', (done) => {
     // Create a teacher on test DB
     const data = { name: 'bla', password: '123', email: 'bla@email' };
     const teacher = new Teacher(data);
@@ -80,4 +70,21 @@ describe('Api users', function describe() {
         done();
       });
   });
+
+  it('should edit a Teacher on /teachers/edit POST', (done) => {
+    const data = { name: 'bla', password: '123', email: 'bla@email' };
+    const teacher = new Teacher(data);
+    teacher.save();
+    const url = `/teachers/edit/${teacher.id}`;
+
+    chai.request(app)
+      .post(url)
+      .send({ name: 'Teach', password: '321'})
+      .end((err, res) => {
+        expect(res).to.be.json;
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+
 });
