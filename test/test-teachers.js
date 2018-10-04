@@ -10,8 +10,8 @@ chai.use(require('chai-http'));
 
 const app = require('../app.js');
 
-const newTeacherUrl = '/teachers/new'
-const teachersUrl = '/teachers'
+const newTeacherUrl = '/teachers/new';
+const teachersUrl = '/teachers';
 
 describe('Teachers GET', function describe() {
   this.timeout(1000000000); // How long to wait for a response
@@ -68,7 +68,7 @@ describe('Teachers GET', function describe() {
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
-      })
+      });
   });
 });
 
@@ -99,7 +99,7 @@ describe('Teachers POST', function describe() {
       .end((err, res) => {
         expect(res).to.have.status(400);
         done();
-      })
+      });
   });
 });
 
@@ -133,7 +133,7 @@ describe('Teachers DELETE', function describe() {
 
 
   it('Should return 404 for invalid teacher id when DELETE on /teacher/:id', (done) => {
-    const url = '/teachers/123'
+    const url = '/teachers/123';
 
     chai.request(app)
       .delete(url)
@@ -143,4 +143,3 @@ describe('Teachers DELETE', function describe() {
       });
   });
 });
-

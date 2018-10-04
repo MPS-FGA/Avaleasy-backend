@@ -28,7 +28,7 @@ router.post('/new', (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         // Duplicate email
         return res.status(400).send({ success: false, message: 'Teacher already exist!' });
-      } else if (err.name === "ValidationError") {
+      } if (err.name === 'ValidationError') {
         // Data validaton errors
         return res.status(400).send({ success: false, message: 'Invalid data!' });
       }

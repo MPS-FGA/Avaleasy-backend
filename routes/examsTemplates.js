@@ -21,6 +21,9 @@ router.post('/new', (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         // Duplicate exam template
         return res.status(500).send({ succes: false, message: 'This template already exists!' });
+      } if (err.name === 'ValidationError') {
+        // Data validaton errors
+        return res.status(400).send({ success: false, message: 'Invalid data!' });
       }
       // Some other error
       return res.status(500).send(err);

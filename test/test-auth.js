@@ -41,6 +41,6 @@ describe('Auth api', function describe() {
       .end((err, res) => {
         expect(res).to.have.status(404);
         done();
-      })
+      });
   });
 });

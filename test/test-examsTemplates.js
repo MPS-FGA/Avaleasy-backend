@@ -47,4 +47,14 @@ describe('Api users', function describe() {
         done();
       });
   });
+
+  it('Should return 400 for invalid data when POST on /examsTemplates/new', (done) => {
+    chai.request(app)
+      .post('/examsTemplates/new')
+      .send({ title: '', value: '' })
+      .end((err, res) => {
+        expect(res).to.have.status(400);
+        done();
+      });
+  });
 });
