@@ -27,7 +27,10 @@ router.post('/new', (req, res, next) => {
     if (err) {
       if (err.name === 'MongoError' && err.code === 11000) {
         // Duplicate email
-        return res.status(500).send({ success: false, message: 'Teacher already exist!' });
+        return res.status(400).send({ success: false, message: 'Teacher already exist!' });
+      } else if (err.name === "ValidationError") {
+        // Data validaton errors
+        return res.status(400).send({ success: false, message: 'Invalid data!' });
       }
       // Some other error
       return res.status(500).send(err);
@@ -71,11 +74,21 @@ router.get('/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-  Teacher.findOneAndDelete(req.params.id)
-    .then(() => {
-      res.status(204).send({ message: 'Teacher deleted' });
+  Teacher.findByIdAndRemove(req.params.id)
+    .then((teacher) => {
+      if (!teacher) {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        });
+      }
+      return res.status(204).send({ message: 'Teacher deleted' });
     }).catch((err) => {
-      res.status(500).send({ message: err.message || 'Some error occurred while deleting the teacher' });
+      if (err.kind === 'ObjectId') {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        });
+      }
+      return res.status(500).send({ message: err.message || 'Some error occurred while deleting the teacher' });
     });
 });
 
