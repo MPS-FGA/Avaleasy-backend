@@ -28,10 +28,19 @@ describe('Auth api', function describe() {
     chai.request(app)
       .post('/auth/sign-in')
       .send({ email: validUser.email, password: validUser.password })
-      .then((res) => {
+      .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         done();
       });
+  });
+  it('Should return 404 for invalid info', (done) => {
+    chai.request(app)
+      .post('/auth/sing-in')
+      .send({ email: '', password: '' })
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      })
   });
 });
