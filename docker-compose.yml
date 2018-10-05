@@ -13,7 +13,8 @@ services:
 
   api:
     container_name: avaleasy-backend
-    build: .
+    image: avaleasy/avaleasy-backend:1.0.0
+    command: sh -c "yarn install && yarn start"
     ports:
       - 3000:3000
     volumes:

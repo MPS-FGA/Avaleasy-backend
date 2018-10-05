@@ -11,8 +11,12 @@ env:
 before_script:
   - sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   - sudo chmod +x /usr/local/bin/docker-compose
-  - docker network create avaleasy-net
   - docker-compose up -d 
 
 script:
+  - >
+    while ! docker logs avaleasy-backend | grep "node ./bin/www"; do
+        echo "Waiting for start script to finish...";
+        sleep 5;
+    done;
   - $TASK
