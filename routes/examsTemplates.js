@@ -3,7 +3,7 @@ const ExamsTemplates = require('../models/examTemplate.js');
 
 const router = express.Router();
 
-/* POST Exam Model */
+/* Endpoint to POST a single Exam Model */
 router.post('/new', (req, res, next) => {
   const examTemplate = {
     title: req.body.title,
@@ -21,6 +21,9 @@ router.post('/new', (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         // Duplicate exam template
         return res.status(500).send({ succes: false, message: 'This template already exists!' });
+      } if (err.name === 'ValidationError') {
+        // Data validaton errors
+        return res.status(400).send({ success: false, message: 'Invalid data!' });
       }
       // Some other error
       return res.status(500).send(err);
@@ -29,6 +32,40 @@ router.post('/new', (req, res, next) => {
       success: true,
     });
   });
+});
+
+/* Endpoint to get all Exams Models */
+router.get('/', (req, res) => {
+  ExamsTemplates.find()
+    .then((examsTemplates) => {
+      res.status(200).send(examsTemplates);
+    }).catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving the Exams Templates',
+      });
+    });
+});
+
+/* Endpoint to GET a single Exam Model by id */
+router.get('/:id', (req, res) => {
+  ExamsTemplates.findById(req.params.id)
+    .then((examsTemplates) => {
+      if (!examsTemplates) {
+        return res.status(404).send({
+          message: 'Exam Template not found',
+        });
+      }
+      return res.status(200).send(examsTemplates);
+    }).catch((err) => {
+      if (err.kind === 'ObjectId') {
+        return res.status(404).send({
+          message: 'Exam Template not found',
+        });
+      }
+      return res.status(500).send({
+        message: 'Error retrieving the Exam Template',
+      });
+    });
 });
 
 module.exports = router;

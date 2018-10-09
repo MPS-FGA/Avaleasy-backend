@@ -5,4 +5,4 @@ trim_trailing_whitespace = false
 insert_final_newline = true
 
 [*.js]
-indent_size = 4
+indent_size = 2

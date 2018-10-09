@@ -1,4 +1,6 @@
-node_modules
-data
-
+node_modules/
+data/
+package-lock.json
 yarn.lock
+.vscode/
+yarn-error.log
