@@ -107,8 +107,8 @@ router.post('/edit/:id', (req, res, next) => {
         return res.json({
           success: true,
         });
+        return res.status(200).send(teacher);
       });
-      return res.status(200).send(teacher);
     });
 });
 

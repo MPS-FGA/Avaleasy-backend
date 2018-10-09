@@ -75,16 +75,16 @@ describe('Api users', function describe() {
     const data = { name: 'bla', password: '123', email: 'bla@email' };
     const teacher = new Teacher(data);
     teacher.save();
+    this.timeout(1000000000);
     const url = `/teachers/edit/${teacher.id}`;
 
     chai.request(app)
       .post(url)
-      .send({ name: 'Teach', password: '321'})
+      .send({ name: 'Teach', password: '321' })
       .end((err, res) => {
         expect(res).to.be.json;
         expect(res).to.have.status(200);
         done();
       });
   });
-
 });
