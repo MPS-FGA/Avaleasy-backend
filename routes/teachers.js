@@ -89,7 +89,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/edit/:id', (req, res, next) => {
+router.put('/edit/:id', (req, res, next) => {
   Teacher.findById(req.params.id)
     .then((teacher) => {
       if (!teacher) {
@@ -97,9 +97,9 @@ router.post('/edit/:id', (req, res, next) => {
           message: 'Teacher not found',
         });
       }
-      teacher.name = req.body.name;
+      Teacher.name = req.body.name;
       const password = hashPassword(req.body.password);
-      teacher.password = password.passwordHash;
+      Teacher.password = password.passwordHash;
       teacher.save((err) => {
         if (err) {
           return res.status(500).send(err);
@@ -107,8 +107,8 @@ router.post('/edit/:id', (req, res, next) => {
         return res.json({
           success: true,
         });
+        return res.status(200).send(teacher);
       });
-      return res.status(200).send(teacher);
     });
 });
 
