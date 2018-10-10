@@ -92,5 +92,25 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-
+router.put('/edit/:id', (req, res, next) => {
+  Teacher.findById(req.params.id)
+    .then((teacher) => {
+      const t = teacher;
+      if (!teacher) {
+        return res.status(404).send({
+          message: 'Teacher not found',
+        });
+      }
+      t.name = req.body.name;
+      const password = hashPassword(req.body.password);
+      t.password = password.passwordHash;
+      t.save((err) => {
+        if (err) {
+          return res.status(500).send(err);
+        }
+        return res.status(200).send(teacher);
+      });
+      return res.status(400);
+    });
+});
 module.exports = router;

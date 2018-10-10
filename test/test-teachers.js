@@ -60,7 +60,6 @@ describe('Teachers GET', function describe() {
       });
   });
 
-
   it('Should return 404 for invalid teacher id on /teacher/:id', (done) => {
     const url = '/teachers/123';
     chai.request(app)
@@ -139,6 +138,23 @@ describe('Teachers DELETE', function describe() {
       .delete(url)
       .end((err, res) => {
         expect(res).to.have.status(404);
+        done();
+      });
+  });
+
+  it('should edit a Teacher on /teachers/edit/id', (done) => {
+    const data = { name: 'bla', password: '123', email: 'bla@email' };
+    const teacher = new Teacher(data);
+    teacher.save();
+    this.timeout(1000000000);
+    const url = `/teachers/edit/${teacher.id}`;
+
+    chai.request(app)
+      .put(url)
+      .send({ name: 'Teach', password: '321' })
+      .end((err, res) => {
+        expect(res).to.be.json;
+        expect(res).to.have.status(200);
         done();
       });
   });
