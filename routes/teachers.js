@@ -3,6 +3,10 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
+const AuthMiddleware = require('../utils/auth.middleware');
+const CheckUserAcess = require('../utils/auth.userAcessVerification');
+const GetUserFromRequest = require('../utils/auth.getUserIdentity');
+
 const Teacher = require('../models/teacher');
 const hashPassword = require('../utils/password');
 

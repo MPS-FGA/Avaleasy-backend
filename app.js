@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const monk = require('monk');
 const bodyParser = require('body-parser');
+const swaggerUi = require('swagger-ui-express');
 
 const db = monk('localhost:27017/avaleasy-db');
 const indexRouter = require('./routes/index');
@@ -12,6 +13,7 @@ const usersRouter = require('./routes/users');
 const teachersRouter = require('./routes/teachers');
 const authRouter = require('./routes/auth');
 const examsTemplatesRouter = require('./routes/examsTemplates');
+const swaggerDoc = require('./swagger.json');
 
 const app = express();
 
@@ -39,6 +41,7 @@ app.use('/users', usersRouter);
 app.use('/teachers', teachersRouter);
 app.use('/auth', authRouter);
 app.use('/examsTemplates', examsTemplatesRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -50,7 +53,7 @@ app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  
   // render the error page
   res.status(err.status || 500);
   res.render('error');
