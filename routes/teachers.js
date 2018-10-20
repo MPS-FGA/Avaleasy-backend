@@ -6,8 +6,6 @@ const mongoose = require('mongoose');
 const Teacher = require('../models/teacher');
 const hashPassword = require('../utils/password');
 
-mongoose.connect('mongodb://db:27017/base');
-
 /* POST teachers. */
 router.post('/new', (req, res, next) => {
   const teacher = {

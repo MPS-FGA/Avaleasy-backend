@@ -6,8 +6,6 @@ const app = require('../app');
 const Teachers = require('../models/teacher');
 const hashPassword = require('../utils/password');
 
-mongoose.connect('mongodb://db:27017/base');
-
 const router = express();
 
 // POST /auth/sign-in
