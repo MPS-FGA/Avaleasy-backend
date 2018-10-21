@@ -36,7 +36,7 @@ router.post('/new', (req, res, next) => {
           return res.status(400).send({ success: false, message: 'Invalid data!' });
         }
         // Some other error
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       });
   });
 });
