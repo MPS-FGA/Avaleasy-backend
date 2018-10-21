@@ -108,7 +108,7 @@ router.put('/edit/:id', (req, res, next) => {
         if (err) {
           return res.status(500).send(err);
         }
-        return res.status(200).send(teacher);
+        return res.status(201).send(teacher);
       });
       return res.status(400);
     });
