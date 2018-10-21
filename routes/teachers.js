@@ -36,7 +36,7 @@ router.post('/new', (req, res, next) => {
           return res.status(400).send({ success: false, message: 'Invalid data!' });
         }
         // Some other error
-        return res.status(500).send(err);
+        return res.status(400).send(err);
       });
   });
 });
@@ -60,7 +60,7 @@ router.get('/:id', (req, res) => {
           message: 'Teacher not found',
         });
       }
-      return res.status(200).send(teacher);
+      return res.status(201).send(teacher);
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
         return res.status(404).send({
