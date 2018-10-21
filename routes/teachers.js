@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -8,40 +9,37 @@ const CheckUserAcess = require('../utils/auth.userAcessVerification');
 const GetUserFromRequest = require('../utils/auth.getUserIdentity');
 
 const Teacher = require('../models/teacher');
-const hashPassword = require('../utils/password');
+// const hashPassword = require('../utils/password');
 
 mongoose.connect('mongodb://db:27017/base');
 
 /* POST teachers. */
 router.post('/new', (req, res, next) => {
-  const teacher = {
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    salt: '',
-  };
-
-  const password = hashPassword(teacher.password);
-  teacher.password = password.passwordHash;
-  teacher.salt = password.salt;
-
-  const data = new Teacher(teacher);
-
-  data.save((err) => {
-    if (err) {
-      if (err.name === 'MongoError' && err.code === 11000) {
-        // Duplicate email
-        return res.status(400).send({ success: false, message: 'Teacher already exist!' });
-      } if (err.name === 'ValidationError') {
-        // Data validaton errors
-        return res.status(400).send({ success: false, message: 'Invalid data!' });
-      }
-      // Some other error
-      return res.status(500).send(err);
-    }
-    return res.json({
-      success: true,
+  bcrypt.hash(req.body.password, 10).then(hash => {
+    const teacher = new Teacher({
+      name: req.body.name,
+      email: req.body.email,
+      password: hash,
     });
+    teacher.save()
+      .then(result => {
+        res.status(201).json({
+          message: 'teacher created',
+        });
+      })
+      .catch((err) => {
+        if (err) {
+          if (err.name === 'MongoError' && err.code === 11000) {
+            // Duplicate email
+            return res.status(400).send({ success: false, message: 'Teacher already exist!' });
+          } if (err.name === 'ValidationError') {
+            // Data validaton errors
+            return res.status(400).send({ success: false, message: 'Invalid data!' });
+          }
+          // Some other error
+          return res.status(500).send(err);
+        }
+      })
   });
 });
 
@@ -106,8 +104,8 @@ router.put('/edit/:id', (req, res, next) => {
         });
       }
       t.name = req.body.name;
-      const password = hashPassword(req.body.password);
-      t.password = password.passwordHash;
+      const password = bcrypt.hash(req.body.password, 10);
+      t.password = password;
       t.save((err) => {
         if (err) {
           return res.status(500).send(err);
