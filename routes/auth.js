@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const Teacher = require('../models/teacher');
+
 const router = express();
 
 mongoose.connect('mongodb://db:27017/base');
@@ -10,16 +11,16 @@ mongoose.connect('mongodb://db:27017/base');
 // POST /auth/sign-in
 router.post('/sign-in', (req, res, next) => {
   Teacher.findOne({ email: req.body.email })
-    .then(user => {
+    .then((user) => {
       if (!user) {
         return res.json(404, {
-          msg: "user not found"
+          msg: 'user not found',
         });
       }
       bcrypt.compare(req.body.password, user.password, (result, err) => {
         if (!result) {
           return res.json(401, {
-            error: "Wrong credentials",
+            error: 'Wrong credentials',
           });
         }
         if (err) {
@@ -28,12 +29,12 @@ router.post('/sign-in', (req, res, next) => {
         const token = jwt.sign(
           { teacherId: user._id, name: user.name, email: user.email },
           'secretkey',
-          { expiresIn: '1h' }
+          { expiresIn: '1h' },
         );
-        res.json(200, {
+        return res.json(200, {
           token,
         });
-      })
+      });
     });
 });
 

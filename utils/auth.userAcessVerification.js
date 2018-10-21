@@ -17,6 +17,6 @@ const verifyRequestAndAuth = (req, res, next) => {
   }
 
   next();
-}
+};
 
-module.exports = verifyRequestAndAuth
+module.exports = verifyRequestAndAuth;

@@ -1,9 +1,9 @@
 const express = require('express');
 const ExamsTemplates = require('../models/examTemplate.js');
 
-const AuthMiddleware = require('../utils/auth.middleware');
-const CheckUserAcess = require('../utils/auth.userAcessVerification');
-const GetUserFromRequest = require('../utils/auth.getUserIdentity');
+// const AuthMiddleware = require('../utils/auth.middleware');
+// const CheckUserAcess = require('../utils/auth.userAcessVerification');
+// const GetUserFromRequest = require('../utils/auth.getUserIdentity');
 
 const router = express.Router();
 
