@@ -39,6 +39,7 @@ const ExamTemplate = new Schema({
   value: {
     type: Number, min: 0, max: 100, default: 100, required: true,
   },
+  teacherId: { type: Number },
   tblQuestions: [tblQuestions],
   objectiveQuestions: [objectiveQuestions],
   multipleChoiceQuestions: [multipleChoiceQuestions],

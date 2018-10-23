@@ -1,39 +1,42 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-
-const app = require('../app');
-const Teachers = require('../models/teacher');
-const hashPassword = require('../utils/password');
-
-mongoose.connect('mongodb://db:27017/base');
+const bcrypt = require('bcrypt');
+const Teacher = require('../models/teacher');
 
 const router = express();
 
+mongoose.connect('mongodb://db:27017/base');
+
 // POST /auth/sign-in
-router.post('/sign-in', (req, res) => {
-  Teachers.findOne({ email: req.body.email })
-    .then((teacher) => {
-      if (teacher.password === hashPassword(req.body.password).passwordHash) {
-        jwt.sign({ teacher }, app.SECRET_KEY, (err, token) => {
-          if (err) {
-            res.json({
-              err,
-            });
-          } else {
-            res.json({
-              token,
-            });
-          }
+router.post('/sign-in', (req, res, next) => {
+  Teacher.findOne({ email: req.body.email })
+    .then((user) => {
+      if (!user) {
+        return res.json(404, {
+          msg: 'user not found',
         });
-      } else {
-        res.sendStatus(403);
       }
-    })
-    .catch((err) => {
-      res.json({ err });
+      bcrypt.compare(req.body.password, user.password, (result, err) => {
+        if (!result) {
+          return res.json(401, {
+            error: 'Wrong credentials',
+          });
+        }
+        if (err) {
+          return res.json(500, { err });
+        }
+        const token = jwt.sign(
+          { teacherId: user._id, name: user.name, email: user.email },
+          'secretkey',
+          { expiresIn: '1h' },
+        );
+        return res.json(200, {
+          token,
+        });
+      });
+      return true;
     });
 });
-
 
 module.exports = router;

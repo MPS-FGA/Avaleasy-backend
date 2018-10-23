@@ -51,7 +51,7 @@ describe('Teachers GET', function describe() {
     chai.request(app)
       .get(url)
       .end((err, res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res.body).to.be.an('object');
         expect(res.body).to.be.eql(
           { _id: teacher.id, name: teacher.name, email: teacher.email },
@@ -85,7 +85,7 @@ describe('Teachers POST', function describe() {
       .post(newTeacherUrl)
       .send({ name: 'Professor', email: 'Professor@unbmail.com', password: '123' })
       .end((err, res) => {
-        expect(res).to.have.status(200);
+        expect(res).to.have.status(201);
         expect(res).to.be.json;
         done();
       });
@@ -141,14 +141,17 @@ describe('Teachers DELETE', function describe() {
         done();
       });
   });
+});
+
+describe('Teachers EDIT', function describe() {
+  this.timeout(1000000000);
 
   it('should edit a Teacher on /teachers/edit/id', (done) => {
-    const data = { name: 'bla', password: '123', email: 'bla@email' };
+    const data = { name: 'bla1', password: '123', email: 'bla1@email' };
     const teacher = new Teacher(data);
     teacher.save();
-    this.timeout(1000000000);
-    const url = `/teachers/edit/${teacher.id}`;
 
+    const url = `/teachers/edit/${teacher.id}`;
     chai.request(app)
       .put(url)
       .send({ name: 'Teach', password: '321' })

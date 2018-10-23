@@ -1,36 +1,42 @@
 const chai = require('chai');
 const { expect } = require('chai');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const Teacher = require('../models/teacher.js');
 
-mongoose.connect('mongodb://db:27017/base');
+mongoose.connect('mongodb://db:27017/test');
 
 chai.use(require('chai-http'));
 
 const app = require('../app.js');
 
-describe('Auth api', function describe() {
-  this.timeout(10000); // How long to wait for a response
-  const validUser = {
-    name: 'test',
-    email: 'test@test.com',
-    password: '123123',
-  };
+const data = {
+  name: 'test',
+  email: 'test@test.com',
+  password: '123123a',
+};
 
-  before(() => {
-    mongoose.connect('mongodb://db:27017/base');
-  });
+describe('Auth api', function describe() {
+  this.timeout(1000000000); // How long to wait for a response
 
   afterEach((done) => {
+    mongoose.connection.db.dropDatabase();
     done();
   });
 
   it('should sign in valid user', (done) => {
+    const teacher = new Teacher(data);
+    teacher.save();
+
     chai.request(app)
       .post('/auth/sign-in')
-      .send({ email: validUser.email, password: validUser.password })
+      .send({ email: teacher.email, password: teacher.password })
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        expect(res.body.token).to.be.an('string');
+        expect(jwt.verify((res.body.token), 'secretkey')).to.have.all.keys('email', 'name', 'exp', 'iat', 'teacherId');
+
         done();
       });
   });

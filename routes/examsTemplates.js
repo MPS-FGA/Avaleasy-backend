@@ -1,6 +1,10 @@
 const express = require('express');
 const ExamsTemplates = require('../models/examTemplate.js');
 
+// const AuthMiddleware = require('../utils/auth.middleware');
+// const CheckUserAcess = require('../utils/auth.userAcessVerification');
+// const GetUserFromRequest = require('../utils/auth.getUserIdentity');
+
 const router = express.Router();
 
 /* Endpoint to POST a single Exam Model */
@@ -8,6 +12,7 @@ router.post('/new', (req, res, next) => {
   const examTemplate = {
     title: req.body.title,
     value: req.body.value,
+    teacherId: req.body.teacherId,
     tblQuestions: req.body.tblQuestions,
     objectiveQuestions: req.body.objectiveQuestions,
     multipleChoiceQuestions: req.body.multipleChoiceQuestions,
@@ -23,7 +28,7 @@ router.post('/new', (req, res, next) => {
         return res.status(500).send({ succes: false, message: 'This template already exists!' });
       } if (err.name === 'ValidationError') {
         // Data validaton errors
-        return res.status(400).send({ success: false, message: 'Invalid data!' });
+        return res.status(400).send({ err });
       }
       // Some other error
       return res.status(500).send(err);

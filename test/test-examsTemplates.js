@@ -13,6 +13,7 @@ const app = require('../app.js');
 const examMockData = {
   title: 'Modelo de avaliacao Objetiva',
   value: 100,
+  teacherId: 1,
   tblQuestions: [],
   objectiveQuestions: [
     {
