@@ -102,13 +102,12 @@ router.put('/edit/:id', (req, res, next) => {
         });
       }
       t.name = req.body.name;
-      const password = bcrypt.hash(req.body.password, 10);
-      t.password = password;
+      t.password = bcrypt.hashSync(req.body.password, 10);
       t.save((err) => {
         if (err) {
           return res.status(500).send(err);
         }
-        return res.status(201).send(teacher);
+        return res.status(200).send(teacher);
       });
       return res.status(400);
     });

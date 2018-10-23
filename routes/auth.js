@@ -35,6 +35,7 @@ router.post('/sign-in', (req, res, next) => {
           token,
         });
       });
+      return true;
     });
 });
 

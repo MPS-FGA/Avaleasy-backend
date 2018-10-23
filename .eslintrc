@@ -10,6 +10,7 @@
   "rules": {
       "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
       "no-unused-expressions": 0,
+      "no-underscore-dangle": [2, { "allow": ["_id"] }],
       "prefer-destructuring": [
         "error",
         {

@@ -1,8 +1,8 @@
 const chai = require('chai');
 const { expect } = require('chai');
 const mongoose = require('mongoose');
-const Teacher = require('../models/teacher.js');
 const jwt = require('jsonwebtoken');
+const Teacher = require('../models/teacher.js');
 
 mongoose.connect('mongodb://db:27017/test');
 

@@ -143,11 +143,11 @@ describe('Teachers DELETE', function describe() {
   });
 });
 
-describe("Teachers EDIT", function describe() {
+describe('Teachers EDIT', function describe() {
   this.timeout(1000000000);
 
   it('should edit a Teacher on /teachers/edit/id', (done) => {
-    const data = { name: 'bla', password: '123', email: 'bla@email' };
+    const data = { name: 'bla1', password: '123', email: 'bla1@email' };
     const teacher = new Teacher(data);
     teacher.save();
 
