@@ -144,11 +144,13 @@ describe('Teachers DELETE', function describe() {
 });
 
 describe("Teachers EDIT", function describe() {
+  this.timeout(1000000000);
+
   it('should edit a Teacher on /teachers/edit/id', (done) => {
     const data = { name: 'bla', password: '123', email: 'bla@email' };
     const teacher = new Teacher(data);
     teacher.save();
-    this.timeout(1000000000);
+
     const url = `/teachers/edit/${teacher.id}`;
     chai.request(app)
       .put(url)

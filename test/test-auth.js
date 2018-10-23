@@ -2,26 +2,25 @@ const chai = require('chai');
 const { expect } = require('chai');
 const mongoose = require('mongoose');
 const Teacher = require('../models/teacher.js');
+const jwt = require('jsonwebtoken');
 
-mongoose.connect('mongodb://db:27017/base');
+mongoose.connect('mongodb://db:27017/test');
 
 chai.use(require('chai-http'));
 
 const app = require('../app.js');
 
-describe('Auth api', function describe() {
-  this.timeout(10000); // How long to wait for a response
-  const data = {
-    name: 'test',
-    email: 'test@test.com',
-    password: '123123a',
-  };
+const data = {
+  name: 'test',
+  email: 'test@test.com',
+  password: '123123a',
+};
 
-  before(() => {
-    mongoose.connect('mongodb://db:27017/base');
-  });
+describe('Auth api', function describe() {
+  this.timeout(1000000000); // How long to wait for a response
 
   afterEach((done) => {
+    mongoose.connection.db.dropDatabase();
     done();
   });
 
@@ -35,6 +34,9 @@ describe('Auth api', function describe() {
       .end((err, res) => {
         expect(res).to.have.status(200);
         expect(res).to.be.json;
+        expect(res.body.token).to.be.an('string');
+        expect(jwt.verify((res.body.token), 'secretkey')).to.have.all.keys('email', 'name', 'exp', 'iat', 'teacherId');
+
         done();
       });
   });
