@@ -4,12 +4,10 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-// const AuthMiddleware = require('../utils/auth.middleware');
-// const CheckUserAcess = require('../utils/auth.userAcessVerification');
-// const GetUserFromRequest = require('../utils/auth.getUserIdentity');
+const AuthMiddleware = require('../utils/auth.middleware');
+const GetUserFromRequest = require('../utils/auth.getUserIdentity');
 
 const Teacher = require('../models/teacher');
-// const hashPassword = require('../utils/password');
 
 mongoose.connect('mongodb://db:27017/base');
 
@@ -41,7 +39,7 @@ router.post('/new', (req, res, next) => {
   });
 });
 
-router.get('/', (req, res) => {
+router.get('/', AuthMiddleware, (req, res) => {
   Teacher.find()
     .then((teachers) => {
       res.status(200).send(teachers);
@@ -52,7 +50,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', AuthMiddleware, (req, res) => {
   Teacher.findById(req.params.id)
     .then((teacher) => {
       if (!teacher) {
@@ -73,7 +71,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', AuthMiddleware, (req, res) => {
   Teacher.findByIdAndRemove(req.params.id)
     .then((teacher) => {
       if (!teacher) {
@@ -81,6 +79,14 @@ router.delete('/:id', (req, res) => {
           message: 'Teacher not found',
         });
       }
+
+      const req_id = GetUserFromRequest(req);
+      if (teacher._id !== req_id) {
+        return res.statusCode(403).json({
+          message: 'You cant do this',
+        });
+      }
+
       return res.status(204).send({ message: 'Teacher deleted' });
     }).catch((err) => {
       if (err.kind === 'ObjectId') {
@@ -92,9 +98,15 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.put('/edit/:id', (req, res, next) => {
+router.put('/edit/:id', AuthMiddleware, (req, res, next) => {
+  const requester_id = GetUserFromRequest(req);
   Teacher.findById(req.params.id)
     .then((teacher) => {
+      if (teacher._id !== requester_id) {
+        return res.status(403).json({
+          message: 'Unauthorized id',
+        });
+      }
       const t = teacher;
       if (!teacher) {
         return res.status(404).send({
