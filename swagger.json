@@ -1,1 +1,86 @@
-{}
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "",
+    "title": ""
+  },
+  "host": "",
+  "basePath": "",
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Does nothing"
+      }
+    },
+    "/teachers": {
+      "get": {
+        "tags": ["teachers"],
+        "summary": "List of all teachers",
+        "description": "Outputs the entire list of teachers",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
+    },
+    "/teachers/new": {
+      "post": {
+        "tags": ["teachers", "new"],
+        "summary": "Creates a teacher",
+        "description": "Insert a new teacher object in database",
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Created Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
+    },
+    "/teachers/{:id}": {
+      "get": {
+        "tags": ["teachers"],
+        "summary": "Retrieves a teacher",
+        "description": "Outputs a certain teacher found by its id",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          },
+          "404": {
+            "description": "Not Found Operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["teachers", "delete"],
+        "summary": "Deletes a teacher",
+        "description": "Deletes a certain teacher according to its id",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          },
+          "404": {
+            "description": "Not Found Operation"
+          }
+        }
+      }
+    }
+  }
+}
