@@ -81,6 +81,57 @@
           }
         }
       }
+    },
+    "/auth": {
+      "post": {
+        "tags": ["teachers", "new"],
+        "summary": "Prefix for auth",
+        "description": "Prefix used for authentication",
+        "produces": ["application/json"],
+        "responses": {
+          "500": {
+            "description": "Internal Error Operation"
+          }
+        }
+      }
+    },
+    "/auth/sign-in": {
+      "post": {
+        "tags": ["teachers", "new"],
+        "summary": "Authentication",
+        "description": "Authenticate an user",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "email",
+          "name": "email",
+          "description": "Email chosen by the user",
+          "required": true
+        },
+        {
+          "in": "password",
+          "name": "password",
+          "description": "Password chosen by the user",
+          "required": true
+        }],
+        "responses": {
+          "201": {
+            "description": "Created Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
+    },
+    "/examsTemplates": {
+      "post": {},
+      "put": {},
+      "get": {}
+    },
+    "/api": {
+      "post": {},
+      "put": {},
+      "get": {}
     }
   }
 }
