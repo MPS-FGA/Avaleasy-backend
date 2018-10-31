@@ -1,14 +1,13 @@
 const express = require('express');
 const ExamsTemplates = require('../models/examTemplate.js');
 
-// const AuthMiddleware = require('../utils/auth.middleware');
-// const CheckUserAcess = require('../utils/auth.userAcessVerification');
+const AuthMiddleware = require('../utils/auth.middleware');
 // const GetUserFromRequest = require('../utils/auth.getUserIdentity');
 
 const router = express.Router();
 
 /* Endpoint to POST a single Exam Model */
-router.post('/new', (req, res, next) => {
+router.post('/new', AuthMiddleware, (req, res, next) => {
   const examTemplate = {
     title: req.body.title,
     value: req.body.value,
@@ -40,7 +39,7 @@ router.post('/new', (req, res, next) => {
 });
 
 /* Endpoint to get all Exams Models */
-router.get('/', (req, res) => {
+router.get('/', AuthMiddleware, (req, res) => {
   ExamsTemplates.find()
     .then((examsTemplates) => {
       res.status(200).send(examsTemplates);
@@ -52,7 +51,7 @@ router.get('/', (req, res) => {
 });
 
 /* Endpoint to GET a single Exam Model by id */
-router.get('/:id', (req, res) => {
+router.get('/:id', AuthMiddleware, (req, res) => {
   ExamsTemplates.findById(req.params.id)
     .then((examsTemplates) => {
       if (!examsTemplates) {
