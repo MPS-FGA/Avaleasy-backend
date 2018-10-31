@@ -40,7 +40,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/teachers', teachersRouter);
 app.use('/auth', authRouter);
-app.use('/examsTemplates', examsTemplatesRouter);
+app.use('/exams-templates', examsTemplatesRouter);
 app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 // catch 404 and forward to error handler

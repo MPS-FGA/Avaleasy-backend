@@ -10,81 +10,20 @@
   "paths": {
     "/users": {
       "get": {
-        "tags": ["users"],
-        "summary": "Does nothing"
-      }
-    },
-    "/teachers": {
-      "get": {
-        "tags": ["teachers"],
-        "summary": "List of all teachers",
-        "description": "Outputs the entire list of teachers",
+        "tags": ["Users"],
+        "summary": "List of Users",
+        "description": "Outputs a list of users",
         "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "Successful Operation"
-          },
-          "403": {
-            "description": "Forbidden Operation"
-          }
-        }
-      }
-    },
-    "/teachers/new": {
-      "post": {
-        "tags": ["teachers", "new"],
-        "summary": "Creates a teacher",
-        "description": "Insert a new teacher object in database",
-        "produces": ["application/json"],
-        "responses": {
-          "201": {
-            "description": "Created Operation"
-          },
-          "403": {
-            "description": "Forbidden Operation"
-          }
-        }
-      }
-    },
-    "/teachers/{:id}": {
-      "get": {
-        "tags": ["teachers"],
-        "summary": "Retrieves a teacher",
-        "description": "Outputs a certain teacher found by its id",
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful Operation"
-          },
-          "403": {
-            "description": "Forbidden Operation"
-          },
-          "404": {
-            "description": "Not Found Operation"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["teachers", "delete"],
-        "summary": "Deletes a teacher",
-        "description": "Deletes a certain teacher according to its id",
-        "produces": ["application/json"],
-        "responses": {
-          "200": {
-            "description": "Successful Operation"
-          },
-          "403": {
-            "description": "Forbidden Operation"
-          },
-          "404": {
-            "description": "Not Found Operation"
           }
         }
       }
     },
     "/auth": {
       "post": {
-        "tags": ["teachers", "new"],
+        "tags": ["Auth"],
         "summary": "Prefix for auth",
         "description": "Prefix used for authentication",
         "produces": ["application/json"],
@@ -97,7 +36,7 @@
     },
     "/auth/sign-in": {
       "post": {
-        "tags": ["teachers", "new"],
+        "tags": ["Auth"],
         "summary": "Authentication",
         "description": "Authenticate an user",
         "produces": ["application/json"],
@@ -123,15 +62,225 @@
         }
       }
     },
-    "/examsTemplates": {
-      "post": {},
-      "put": {},
-      "get": {}
+    "/teachers": {
+      "get": {
+        "tags": ["Teachers"],
+        "summary": "List of all teachers",
+        "description": "Outputs the entire list of teachers",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
     },
-    "/api": {
-      "post": {},
-      "put": {},
-      "get": {}
+    "/teachers/new": {
+      "post": {
+        "tags": ["Teachers"],
+        "summary": "Creates a teacher",
+        "description": "Insert a new teacher object in database",
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Created Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
+    },
+    "/teachers/{:id}": {
+      "get": {
+        "tags": ["Teachers"],
+        "summary": "Retrieves a teacher",
+        "description": "Outputs a certain teacher found by its id",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          },
+          "404": {
+            "description": "Not Found Operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Teachers"],
+        "summary": "Deletes a teacher",
+        "description": "Deletes a certain teacher according to its id",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          },
+          "404": {
+            "description": "Not Found Operation"
+          }
+        }
+      }
+    },
+    "/exams-templates": {
+      "get": {
+        "tags": ["Exams Templates"],
+        "summary": "List of the Exams Templates",
+        "description": "Outputs a list containing the available TBL exam templates",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "title",
+          "name": "title",
+          "description": "TBL Exam title chosen by the user",
+          "required": false
+        },
+        {
+          "in": "value",
+          "name": "value",
+          "description": "TBL Exam value chosen by the user",
+          "required": false
+        },
+        {
+          "in": "tblQuestions",
+          "name": "tblQuestions",
+          "description": "TBL Question chosen by the user",
+          "required": false
+        },
+        {
+          "in": "objectiveQuestions",
+          "name": "objectiveQuestions",
+          "description": "TBL Objective Questions chosen by the user",
+          "required": false
+        },
+        {
+          "in": "multipleChoiceQuestions",
+          "name": "multipleChoiceQuestions",
+          "description": "TBL Multiple Questions chosen by the user",
+          "required": false
+        },
+        {
+          "in": "tfQuestions",
+          "name": "tfQuestions",
+          "description": "TBL TF Questions chosen by the user",
+          "required": false
+        }],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
+    },
+    "/exams-templates/{:id}": {
+      "get": {
+        "tags": ["Exams Templates"],
+        "summary": "Retrieves an Exam Template",
+        "description": "Outputs a certain TBL exam template found by its id",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "teacherId",
+          "name": "teacherId",
+          "description": "Teacher that created the TBL Exam template",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "404": {
+            "description": "Not Found Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Exams Templates"],
+        "summary": "Deletes an Exam Template",
+        "description": "Deletes a certain TBL exam template found by its id",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "teacherId",
+          "name": "teacherId",
+          "description": "Teacher that created the TBL Exam template",
+          "required": true
+        }],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "404": {
+            "description": "Not Found Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
+    },
+    "/exams-templates/new": {
+      "post": {
+        "tags": ["Exams Templates"],
+        "summary": "Creates an Exams Template",
+        "description": "Insert a new TBL exam template object in database",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "title",
+          "name": "title",
+          "description": "TBL Exam title chosen by the user",
+          "required": true
+        },
+        {
+          "in": "value",
+          "name": "value",
+          "description": "TBL Exam value chosen by the user",
+          "required": true
+        },
+        {
+          "in": "tblQuestions",
+          "name": "tblQuestions",
+          "description": "TBL Question chosen by the user",
+          "required": true
+        },
+        {
+          "in": "objectiveQuestions",
+          "name": "objectiveQuestions",
+          "description": "TBL Objective Questions chosen by the user",
+          "required": false
+        },
+        {
+          "in": "multipleChoiceQuestions",
+          "name": "multipleChoiceQuestions",
+          "description": "TBL Multiple Questions chosen by the user",
+          "required": false
+        },
+        {
+          "in": "tfQuestions",
+          "name": "tfQuestions",
+          "description": "TBL TF Questions chosen by the user",
+          "required": false
+        }],
+        "responses": {
+          "201": {
+            "description": "Created Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          }
+        }
+      }
     }
   }
 }
