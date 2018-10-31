@@ -5,7 +5,7 @@ const tokenHandler = require('./auth.tokenHandler');
 function verifyToken(req, res, next) {
   const token = tokenHandler(req);
   const payload = jwt.decode(token, 'secretkey');
-  if (!payload.sub) {
+  if (!payload) {
     res.status(401).send({
       message: 'Permission denied',
     });
