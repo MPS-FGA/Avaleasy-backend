@@ -84,6 +84,24 @@
         "summary": "Creates a teacher",
         "description": "Insert a new teacher object in database",
         "produces": ["application/json"],
+        "parameters": [{
+          "in": "name",
+          "name": "name",
+          "description": "Teacher name chosen by the user",
+          "required": true
+        },
+        {
+          "in": "email",
+          "name": "email",
+          "description": "Teacher email chosen by the user",
+          "required": true
+        },
+        {
+          "in": "password",
+          "name": "password",
+          "description": "Teacher password chosen by the user",
+          "required": true
+        }],
         "responses": {
           "201": {
             "description": "Created Operation"
@@ -100,6 +118,47 @@
         "summary": "Retrieves a teacher",
         "description": "Outputs a certain teacher found by its id",
         "produces": ["application/json"],
+        "parameters": [{
+            "in": "identifier",
+            "name": "id",
+            "description": "Integer that identifies a single teacher",
+            "required": true
+          }],
+        "responses": {
+          "200": {
+            "description": "Successful Operation"
+          },
+          "403": {
+            "description": "Forbidden Operation"
+          },
+          "404": {
+            "description": "Not Found Operation"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Teachers"],
+        "summary": "Edits a teacher",
+        "description": "Edits a certain teacher found by its id",
+        "produces": ["application/json"],
+        "parameters": [{
+          "in": "name",
+          "name": "name",
+          "description": "Teacher name chosen by the user",
+          "required": false
+        },
+        {
+          "in": "email",
+          "name": "email",
+          "description": "Teacher email chosen by the user",
+          "required": false
+        },
+        {
+          "in": "password",
+          "name": "password",
+          "description": "Teacher password chosen by the user",
+          "required": false
+        }],
         "responses": {
           "200": {
             "description": "Successful Operation"
